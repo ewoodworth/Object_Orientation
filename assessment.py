@@ -5,17 +5,21 @@ Part 1: Discussion
    can provide? Explain each concept.
 
 
-   Abstraction:
+   Abstraction: Hiding details we don't need
+   Encapsulation: Keeping everything together. Organize our components
    Polymorphism: Things which serve the same function but have different genesis.
 
 2. What is a class?
     Classes are a category of object-groupings. Their members (objects) carry attributes designated by their membership in a particular class. Attributes and methods can be attached to specific classes. All members of a class can be acted upon by methids attached to that class. All members of a class will have the same class-attributes. Instance attributes take precidence over class attributes.
 
 3. What is an instance attribute?
+    Attribute attached to a particular instance
 
 4. What is a method?
+  Actions attached to specific classes
 
 5. What is an instance in object orientation?
+    One member of a class or subclass
 
 6. How is a class attribute different than an instance attribute?
    Give an example of when you might use each.
@@ -37,18 +41,51 @@ class Student(object):
         self.name_first = name_first
         self.name_last = name_last
         self.address_street = address_street
-
-# questions have answers
+        self.score = 0
 
 class Question(object):
-    """Questions and answers, and belong to exams"""
-2
-    def __init__(self, question, answer):
+    """Questions and correct answers"""
+
+    def __init__(self, question, correct_answer):
         self.question = question
-        self.answer = answer
+        self.correct_answer = correct_answer
 
-#Exams have names, questions and answers
+    def ask_and_evaluate(self):
+        user_answer = raw_input(self.question + ">\n")
+        if user_answer == self.correct_answer:
+            return True
+
 class Exam(object):
-    """Exams have titles and contain questions"""
+    """Exams have titles and contain a list of questions"""
 
-#Could treat a question as a very short exam, or could add a list of questions to a given exam
+    def __init__(self, title, questions):
+      self.title = title
+      self.questions = questions
+
+    def administer(self, student, questions):
+        for question in self.questions:
+            if question.ask_and_evaluate():
+                student.score = student.score + 1
+            else:
+                student.score = student.score
+        return student.score
+
+def example():
+    """Administer a test to myself and alter my score"""
+    question1 = Question("What is pi?", "delicious")
+    question2 = Question("What's brown and sticky?","stick")
+    question3 = Question("The more you take, the more you leave behind. What is it?", "footsteps")
+
+    example_exam = Exam("example_exam", [question1, question2, question3])
+
+    erin = Student("Erin", "Woodworth", "123 main st")
+
+    example_exam.administer(erin, [question1, question2, question3])
+
+
+example()
+
+
+
+
+
