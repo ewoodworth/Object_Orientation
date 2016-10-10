@@ -65,10 +65,10 @@ class Exam(object):
     def administer(self, student, questions):
         for question in self.questions:
             if question.ask_and_evaluate():
-                student.score = student.score + 1
+                self.score = self.score + 1
             else:
-                student.score = student.score
-        return student.score
+                self.score = self.score
+        return self.score
 
 def example():
     """Administer a test to myself and alter my score"""
@@ -85,7 +85,12 @@ def example():
 
 example()
 
+class Quiz(Exam):
+"""Shorter pass/fail exams"""
 
-
-
-
+    def administer(self, students, questions):
+        super(Quiz, self).administer()
+        if self.score / len(questions) >= 0.5:
+            return True
+        else:
+            return False
